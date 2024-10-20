@@ -9,7 +9,6 @@ class Cocktail{
   String imageUrl;
   bool alcoholic;
 
-//Konstruktor tworzy obiekty o typie mapa i nazwie json
   Cocktail.fromJson(Map json):
         id=json['id'],
         name=json['name'],
@@ -32,4 +31,29 @@ class Cocktail{
     };
   }
 }
-//osobna klasa
+
+class Ingredients{
+  int id;
+  String description;
+  String type;
+  int percentage;
+  String imageUrl;
+
+  Ingredients.fromJson(Map json):
+      id=json['id'],
+      description=json['description'],
+      type=json['type'],
+      percentage=json['percentage'],
+      imageUrl=json['imageUrl'];
+
+  Map mapa(){
+      return {
+          'id': id,
+          'description': description,
+          'type':type,
+          'percentage':percentage,
+          'imageUrl':imageUrl,
+        };
+      }
+
+}

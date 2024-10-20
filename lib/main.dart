@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       home: CocktailsList(), //ustawiamy ekran startowy homepage jako Cocktails list
       routes:{
         '/pierwszastrona': (context) => CocktailsList(),
-        '/drugastrona': (context) => const Drugastrona(),
+        '/drugastrona': (context) => Drugastrona(),
       },
     );
   }
