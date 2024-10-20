@@ -42,42 +42,57 @@ class _DrugastronaState extends State<Drugastrona> {
     getCocktailFromAPI(cocktailFromArguments.id);
     super.didChangeDependencies();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    // use elvis operator - we prefer to display cocktail with ingredients but
-    // if it is not there yet or we couldn't get it from API then fallback to
-    // cocktailFromArgument (the one without ingredients inside)
     Cocktail cocktail = cocktailWithIngredients ?? cocktailFromArguments;
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration( image: DecorationImage(image: NetworkImage(cocktail.imageUrl), fit: BoxFit.fill,),),
-
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.4,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(cocktail.imageUrl),
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
+            Container(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  Text(cocktail.name,
+                  Text(
+                    cocktail.name,
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
-                  Text(cocktail.category,style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 15),
+                    child: Text(
+                      cocktail.category,
+                      style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                    ),
+                  ),
                   Row(
                     children: [
                       const Spacer(flex: 1),
                       Expanded(
-                        flex:8,
+                        flex: 8,
                         child: Container(
                           height: 40,
-                          decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10)), color: Colors.grey[200]),
-                          child: Center(child: Text(cocktail.glass, style: TextStyle(fontSize: 15),),),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            color: Colors.grey[200],
+                          ),
+                          child: Center(
+                            child: Text(
+                              cocktail.glass,
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
                         ),
                       ),
                       const Spacer(flex: 1),
@@ -85,39 +100,80 @@ class _DrugastronaState extends State<Drugastrona> {
                         flex: 8,
                         child: Container(
                           height: 40,
-                          decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10)), color: Colors.grey[200]),
-                          child: Center(child: Text(
-                            cocktail.alcoholic ? "Alcoholic" : "Non-alcoholic",
-                            style: TextStyle(fontSize: 15),),),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            color: Colors.grey[200],
+                          ),
+                          child: Center(
+                            child: Text(
+                              cocktail.alcoholic ? "Alcoholic" : "Non-alcoholic",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
                         ),
                       ),
                       const Spacer(flex: 1),
                     ],
                   ),
-                  Text(cocktail.instructions, style: TextStyle(fontSize: 15),),
-
-                  // add a list of ingredients
-                  Expanded(
-                    child:
-                      ListView.builder(
-                          itemCount: cocktail.ingredients?.length ?? 0,
-                          itemBuilder: (BuildContext context, int index) {
-                            Ingredient ingredient = cocktail.ingredients![index];
-                            return Container(
-                              height: 50,
-                              child: Text(ingredient.name, style: TextStyle(fontSize: 15),)
-                            );
-                          }
-                      )
+                  Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Text(
+                      cocktail.instructions,
+                      style: TextStyle(fontSize: 15),
+                    ),
                   ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: cocktail.ingredients?.length ?? 0,
+                    itemBuilder: (BuildContext context, int index) {
+                      Ingredient ingredient = cocktail.ingredients![index];
+                      return Column(
+                        children: [
+                              Container(
+                                padding: const EdgeInsets.all(4.0),
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: ingredient.imageUrl != null
+                                          ? NetworkImage(ingredient.imageUrl!)
+                                          : AssetImage('images/pytajnik-kubek.jpg') as ImageProvider,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                width: 150,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                  color: Colors.grey[200],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    ingredient.name,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ),
+
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(ingredient.description ?? "", style: TextStyle(fontSize: 15), textAlign: TextAlign.justify,),
+                          ),
+                        ],
+                      );
 
 
-
+                    },
+                  ),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
