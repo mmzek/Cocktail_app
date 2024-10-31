@@ -58,7 +58,7 @@ class Ingredient{
     imageUrl = json['imageUrl'],
     measure = json['measure'];
 
-  Map mapa(){
+  Map map(){
       return {
           'id': id,
           'name': name,

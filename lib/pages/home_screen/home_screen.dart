@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'drink_card.dart';
 
-
 class CocktailsList extends StatefulWidget {
   const CocktailsList({super.key});
 
@@ -15,9 +14,10 @@ class CocktailsList extends StatefulWidget {
 
 class _CocktailsListState extends State<CocktailsList> {
   static const _pageSize = 20;
-  final PagingController<int, Cocktail> _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, Cocktail> _pagingController =
+      PagingController(firstPageKey: 1);
 
-  List<Cocktail> allCocktails = []; // List to store all cocktails for searching
+  List<Cocktail> allCocktails = [];
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _CocktailsListState extends State<CocktailsList> {
             .map((item) => Cocktail.fromJson(item))
             .toList();
 
-        allCocktails.addAll(newItems); // Add new cocktails to the list
+        allCocktails.addAll(newItems);
 
         final int currentPage = jsonData['meta']['currentPage'];
         final int lastPage = jsonData['meta']['lastPage'];
@@ -68,7 +68,7 @@ class _CocktailsListState extends State<CocktailsList> {
           'Cocktails',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 24, // Large font size for title
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -86,22 +86,23 @@ class _CocktailsListState extends State<CocktailsList> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(0),
         child: PagedGridView<int, Cocktail>(
           pagingController: _pagingController,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Two items per row
-            crossAxisSpacing: 16.0, // Horizontal space between items
-            mainAxisSpacing: 16.0, // Vertical space between items
-            childAspectRatio: 0.75, // Aspect ratio for image and text layout
+            crossAxisCount: 2,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 0,
+            childAspectRatio: 0.9,
           ),
           builderDelegate: PagedChildBuilderDelegate<Cocktail>(
             itemBuilder: (context, item, index) => GestureDetector(
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  '/drugastrona',
-                  arguments: item, // Przekazujemy obiekt 'Cocktail' jako argument
+                  '/second_page',
+                  arguments:
+                      item,
                 );
               },
               child: DrinkCard(title: item.name, image: item.imageUrl),
@@ -118,7 +119,6 @@ class _CocktailsListState extends State<CocktailsList> {
     super.dispose();
   }
 }
-
 
 class CustomSearchDelegate extends SearchDelegate {
   final List<Cocktail> cocktails;
@@ -160,22 +160,22 @@ class CustomSearchDelegate extends SearchDelegate {
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return ListTile(
-          title: GestureDetector(
+        return GestureDetector(
+          child: ListTile(
             onTap: () {
               Navigator.pushNamed(
                 context,
-                '/drugastrona',
+                '/second_page',
                 arguments: result,
               );
             },
-            child: Text(result.name),
-          ),
-          leading: Image.network(
-            result.imageUrl,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
+            title: Text(result.name),
+            leading: Image.network(
+              result.imageUrl,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+            ),
           ),
         );
       },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../dane/cocktails.dart';
+import 'package:cocktail_app/dane/cocktails.dart';
 
 class DrinkDetails extends StatelessWidget {
   const DrinkDetails({
@@ -26,20 +26,9 @@ class DrinkDetails extends StatelessWidget {
               style: TextStyle(fontSize: 15, color: Colors.grey[700]),
             ),
           ),
-          Row(
-            children: [
-              const Spacer(flex: 1),
-              Expanded(
-                flex: 8,
-                child: GreyContainer(text : cocktail.glass),
-              ),
-              const Spacer(flex: 1),
-              Expanded(
-                flex: 8,
-                child: GreyContainer(text: cocktail.alcoholic ? "Alcoholic" : "Non-alcoholic" ),
-              ),
-              const Spacer(flex: 1),
-            ],
+          TwoGreyContainers(
+            text1: cocktail.glass,
+            text2: cocktail.alcoholic ? "Alcoholic" : "Non-alcoholic",
           ),
           Padding(
             padding: const EdgeInsets.only(top: 15),
@@ -56,11 +45,35 @@ class DrinkDetails extends StatelessWidget {
               Ingredient ingredient = cocktail.ingredients![index];
               return Column(
                 children: [
-                  IngredientImage(image: ingredient.imageUrl,),
-                  GreyContainer(text: ingredient.name),
+                  IngredientImage(
+                    image: ingredient.imageUrl,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0, top: 16),
+                    child: Row(
+                      children: [
+                        const Spacer(flex: 1,),
+                        Expanded(
+                          flex: 17,
+                          child: GreyContainer(text: ingredient.name),
+                        ),
+                        const Spacer(flex:1,)
+                      ],
+                    ),
+                  ),
+                  TwoGreyContainers(
+                    text1: ingredient.percentage == null
+                        ? "Unknown %"
+                        : "${ingredient.percentage}%",
+                    text2: ingredient.alcohol ? "Alcoholic" : "Non-alcoholic",
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(ingredient.description ?? "", style: const TextStyle(fontSize: 15), textAlign: TextAlign.justify,),
+                    child: Text(
+                      ingredient.description ?? "",
+                      style: const TextStyle(fontSize: 15),
+                      textAlign: TextAlign.justify,
+                    ),
                   ),
                 ],
               );
@@ -120,6 +133,40 @@ class GreyContainer extends StatelessWidget {
           style: const TextStyle(fontSize: 15),
         ),
       ),
+    );
+  }
+}
+
+class TwoGreyContainers extends StatelessWidget {
+  const TwoGreyContainers({
+    super.key,
+    required this.text1,
+    required this.text2,
+  });
+
+  final String text1;
+  final String text2;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Spacer(
+          flex: 1,
+        ),
+        Expanded(
+          flex: 8,
+          child: GreyContainer(text: text1),
+        ),
+        const Spacer(flex: 1),
+        Expanded(
+          flex: 8,
+          child: GreyContainer(text: text2),
+        ),
+        const Spacer(
+          flex: 1,
+        ),
+      ],
     );
   }
 }

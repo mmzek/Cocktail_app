@@ -11,10 +11,10 @@ class MyApp extends StatelessWidget {
  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CocktailsList(),
+      home: const CocktailsList(),
       routes:{
-        '/pierwszastrona': (context) => CocktailsList(),
-        '/drugastrona': (context) => Drugastrona(),
+        '/first_page': (context) => const CocktailsList(),
+        '/second_page': (context) => DetailScreen(),
       },
     );
   }

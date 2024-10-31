@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 
 class DrinkCard extends StatelessWidget {
   const DrinkCard({
-    super.key, required this.title, required this.image,
+    super.key,
+    required this.title,
+    required this.image,
   });
+
   final String title;
   final String image;
+
   @override
-  Widget build(BuildContext context,) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -32,13 +38,12 @@ class DrinkCard extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8.0), // Space between image and text
-        // Title of the dish
+        const SizedBox(height: 8.0),
         Text(
           title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 16, // Font size for dish name
+            fontSize: 16,
           ),
           textAlign: TextAlign.center,
         ),

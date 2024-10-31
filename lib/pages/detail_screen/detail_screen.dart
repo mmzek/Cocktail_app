@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'drink_details.dart';
 import 'drink_image.dart';
 
-class Drugastrona extends StatefulWidget {
+class DetailScreen extends StatefulWidget {
   @override
-  _DrugastronaState createState() => _DrugastronaState();
+  _DetailScreenState createState() => _DetailScreenState();
 }
 
-class _DrugastronaState extends State<Drugastrona> {
+class _DetailScreenState extends State<DetailScreen> {
   late Cocktail cocktailFromArguments;
   Cocktail? cocktailWithIngredients;
 
